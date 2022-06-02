@@ -1,5 +1,9 @@
-from distutils import text_file
+
+
+from email import message
 from tkinter import *
+from turtle import title
+import notification
 
 
 # ---------------------------- CONSTANTS and global variables ------------------------------- #
@@ -10,12 +14,32 @@ GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 WEIRD_BLUE = "#1C658C"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
+work_min = 25
+short_break_min = 5
 LONG_BREAK_MIN = 30
 reps = 0
 symbol = ""
 timer = None
+
+#-----------------------------NOTIFICATION SYSTEM------------------------- #
+
+
+
+
+
+
+
+#-----------------------------CHOOSE WORK TIME---------------------------- #
+
+def work_time_define():
+    # print(t.get())
+    global work_min, short_break_min
+
+    if t.get() == 50:
+        work_min = 50
+        short_break_min = 10
+
+
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
@@ -47,18 +71,23 @@ def timer_start():                    #Creatin a function to bind it to the Star
     if reps % 8 == 0:                   # Condition for Long break time
         count_down(LONG_BREAK_MIN)    
         timer_label.config(text= "BREAK 🛌🏻", fg= RED)
+        notification.notify_lbreak()
 
     elif reps % 2 == 0:                 # Condition of Working time
-        count_down(SHORT_BREAK_MIN)
+        count_down(short_break_min)
         timer_label.config(text= "BREAK 🛌🏻", fg= PINK)
 
         symbol += "🎯"
         symbol_label.config(text= symbol, fg= CUTE_RED)
+        notification.notify_sbreak()
 
     
     else:                               # Condition for Short break time
-        count_down(WORK_MIN)
-        timer_label.config(text= "WORK 👩🏻‍💻", fg= GREEN)    
+        count_down(work_min)
+        timer_label.config(text= "WORK 👩🏻‍💻", fg= GREEN)  
+
+        if reps != 1:  
+            notification.notify_work()
 
 
     # Adding functionality to limit Start button press to only 1, until reset 
@@ -127,5 +156,18 @@ reset_button.grid(row= 2, column= 2)
 #Completion mark
 symbol_label = Label(text= None , bg= YELLOW, fg= CUTE_RED , font=1)
 symbol_label.grid(row= 3, column= 1)
+
+
+#Time select option
+#Radio Buttons
+t = IntVar()               #IntVar() function is used to create a tkinter int variable which supports get() and set() method.
+
+t25 = Radiobutton(text= "Work - 25 min", variable= t, value= 25, bg= YELLOW, font= ("Arial", 10, "bold"),command= work_time_define)
+t25.grid(row=1, column=0)
+
+t50 = Radiobutton(text= "Work - 50 min", variable= t, value= 50, bg= YELLOW, font= ("Arial", 10, "bold"),command= work_time_define)
+t50.grid(row=1, column=2)
+
+
 
 window.mainloop()
