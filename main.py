@@ -34,6 +34,13 @@ def work_time_define():
     if t.get() == 50:
         work_min = 50
         short_break_min = 10
+    
+    elif t.get() == 25:
+        work_min = 25
+        short_break_min = 5
+    
+    else:
+        pass
 
 
 
