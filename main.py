@@ -1,10 +1,6 @@
-
-
-from email import message
 from tkinter import *
-from turtle import title
 import notification
-
+import tsp_support
 
 # ---------------------------- CONSTANTS and global variables ------------------------------- #
 PINK = "#e2979c"
@@ -24,7 +20,7 @@ timer = None
 #-----------------------------NOTIFICATION SYSTEM------------------------- #
 
 
-
+# In notification.py
 
 
 
@@ -72,6 +68,7 @@ def timer_start():                    #Creatin a function to bind it to the Star
         count_down(LONG_BREAK_MIN)    
         timer_label.config(text= "BREAK 🛌🏻", fg= RED)
         notification.notify_lbreak()
+        tsp_support.tts_lbreak()
 
     elif reps % 2 == 0:                 # Condition of Working time
         count_down(short_break_min)
@@ -80,6 +77,7 @@ def timer_start():                    #Creatin a function to bind it to the Star
         symbol += "🎯"
         symbol_label.config(text= symbol, fg= CUTE_RED)
         notification.notify_sbreak()
+        tsp_support.tts_sbreak()
 
     
     else:                               # Condition for Short break time
@@ -88,6 +86,7 @@ def timer_start():                    #Creatin a function to bind it to the Star
 
         if reps != 1:  
             notification.notify_work()
+            tsp_support.tts_work()
 
 
     # Adding functionality to limit Start button press to only 1, until reset 
